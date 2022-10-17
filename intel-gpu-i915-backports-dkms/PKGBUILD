@@ -1,0 +1,31 @@
+_pkgbase=intel-gpu-i915-backports
+pkgname=intel-gpu-i915-backports-dkms
+pkgver=22.04
+pkgrel=1
+pkgdesc="Arch package for i915 kernel backport"
+arch=('x86_64')
+url=""
+depends=('dkms')
+source=(
+	git+https://github.com/intel-gpu/intel-gpu-i915-backports.git#branch=ubuntu/main
+	for-arch.patch
+)
+sha256sums=(
+	'SKIP'
+	'SKIP'
+)
+
+prepare() {
+	# Generate dkms.conf with pkgver and pkgname
+	cd "$_pkgbase"
+	sh scripts/backport-mkdebdkms -n "$_pkgbase" -v "$pkgver" -r "$pkgrel" -p "opensource" > dkms.conf
+	patch --forward --strip=1 --input="${srcdir}/for-arch.patch"
+	# patch --forward --strip=1 --input="${srcdir}/for-5.15.patch"
+}
+
+package() {
+	# Copy everything over
+	# install -Dm644 "${_pkgbase}/dkms.conf" "${pkgdir}/usr/src/${_pkgbase}-${pkgver}/dkms.conf"
+	mkdir -p "${pkgdir}/usr/src/${_pkgbase}-${pkgver}/"
+	cp -r "${_pkgbase}"/* "${pkgdir}/usr/src/${_pkgbase}-${pkgver}/"
+}

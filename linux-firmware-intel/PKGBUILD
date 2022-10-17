@@ -1,0 +1,30 @@
+# Mostly a copy of linux-firmware PKGBUILD by Thomas Bächler <thomas@archlinux.org>
+# Maintainer: Victor Dmitriev <mrvvitek@gmail.com>
+# Contributor: xduugu
+
+pkgname=linux-firmware-intel-git
+pkgver=20220830.9c6aaa4
+pkgrel=1
+pkgdesc="Firmware files for Intel gpu devices"
+url="https://github.com/intel-gpu/intel-gpu-firmware"
+license=('custom')
+arch=('any')
+makedepends=('git')
+options=(!strip)
+source=("${pkgname}::git+https://github.com/intel-gpu/intel-gpu-firmware#branch=main")
+sha256sums=('SKIP')
+# validpgpkeys=('4CDE8575E547BF835FE15807A31B6BD72486CFD6') # Josh Boyer <jwboyer@fedoraproject.org>
+
+pkgver() {
+  cd ${pkgbase}
+
+  # Commit date + short rev
+  echo $(TZ=UTC git show -s --pretty=%cd --date=format-local:%Y%m%d HEAD).$(git rev-parse --short HEAD)
+}
+
+package() {
+  cd ${pkgname}
+
+  mkdir -p "${pkgdir}/usr/lib/firmware/updates/i915"
+  cp firmware/*.bin  "${pkgdir}/usr/lib/firmware/updates/i915"
+}

@@ -1,0 +1,17 @@
+This is a collection of pkgbuilds for testing out DG2 features that depend on
+kernel updates that have not yet made it to drm-tip
+
+It is based on the intel i915 backports available at
+https://github.com/intel-gpu/intel-gpu-i915-backports which is built to work
+with specific vendor supported kernels.
+
+I have packaged ubuntu's 22.04 linux 5.17 OEM kernel here as well to provide
+the platform for the backports package.
+
+The driver will also attempt to load it's compatible HuC/GuC. Since the HuC may
+never be upstreamed to linux-firmware I also provide the intel-gpu-firmware
+package.
+
+Finally a package for Intel's media-driver VAAPI drivers to test the backported
+functionality.
+
