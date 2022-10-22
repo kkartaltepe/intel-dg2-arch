@@ -12,6 +12,14 @@ The driver will also attempt to load it's compatible HuC/GuC. Since the HuC may
 never be upstreamed to linux-firmware I also provide the intel-gpu-firmware
 package.
 
-Finally a package for Intel's media-driver VAAPI drivers to test the backported
+This driver doesnt support the regular DRM kernel interfaces so you must
+compile and install intel's mesa fork. This mesa fork does not work with
+upstream drivers either so you must swap back to upstream mesa if you swap back
+to upstream kernels.
+
+Then a package for Intel's media-driver VAAPI drivers to test the backported
 functionality.
+
+Finally try and build ffmpeg with all of intel's staging patches which contains
+support for the av1_vaapi encoder.
 
